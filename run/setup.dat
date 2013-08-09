@@ -3,12 +3,12 @@
 ******************
 
 0.01) Select the kind of estimation: 0=classic, 1=robust:
- 0 
+ 1 
 
 
 
 0.02) Select the kind of job: 1=only first step, 2=only second step, 3=both steps:
- 1
+ 3
 
 
 
@@ -18,8 +18,7 @@
 
 
 0.04) Number of observations:
-2000
-
+1000
 
 
 0.05) Estimate all simulations or only a subset of them:
@@ -29,14 +28,7 @@
 
 0.06) Number of monte carlo simulations and (if 0.05=1) their ID:
 MC simulations (I7):    1
-Simulation nb. (I7):    317
-Simulation nb. (I7):    401
-Simulation nb. (I7):    417
-Simulation nb. (I7):    685
-Simulation nb. (I7):    839
-Simulation nb. (I7):    870
-Simulation nb. (I7):    883
-Simulation nb. (I7):    160
+Simulation nb. (I7):    1
 
 
 0.07) Ignore the first "n" simulations, n=?:
@@ -46,7 +38,7 @@ Simulation nb. (I7):    160
 0.08) Do you want to store the selected output, t or .FALSE.
  t 
  t 
- f 
+ t 
 
 
 0.09) Do a grid search: 0=no
@@ -57,13 +49,10 @@ Simulation nb. (I7):    160
 
 
 
-0.10) Repeat grid search for the first "n" loops:
+0.10) Repeat gread search for the first 'n' loops:
    n=0: do always
-   n>0: do n times
- 1
-
-
-
+   n>0: do 'n' times
+ 2
 
 
 ***************************************************
@@ -71,10 +60,10 @@ Simulation nb. (I7):    160
 ***************************************************
 
 1.01) Name of the DGP (A15)
-CIR_DIFF_MODEL_
+ARMA_GARCH_MOD_
 
 Select between: ARMA(p,q)_MODEL - STOC_VOLATILITY - ARMA_GARCH_MOD_
-                SWITCH_AR_MODEL - MARKOV_SWI_M_AR - CIR_DIFF_MODEL_
+                SWITCH_AR_MODEL - MARKOV_SWI_M_AR
       
 
 
@@ -87,8 +76,6 @@ STOC_VOLATILITY     2
 ARMA_GARCH_MOD_     1
 SWITCH_AR_MODEL     2
 MARKOV_SWI_M_AR     2
-CIR_DIFF_MODEL_     1
-
 
 Selection table:
 SWITCH_AR_MODEL     the regime innovation (the distribution is equal to all regimes)
@@ -108,20 +95,10 @@ STUDENT df....         YES               YES              YES               YES
 SNP_DST ......     WITHOUT LAGS      WITHOUT LAGS         YES           WITHOUT LAGS
 
 
-Selection table: CIR_DIFF_MODEL_
-UNIFORM ......         NO                YES              YES               YES
-NORMAL_ ......         YES               YES              YES               YES
-STUDENT df....         NO                YES              YES               YES
-SNP_DST ......         NO            WITHOUT LAGS         YES           WITHOUT LAGS
-
-
 Selection table:
 SWITCH_AR_MODEL    the first is free but the second series MUST be UNIFORM 
 
 MARKOV_SWI_M_AR    same as SWITCH_AR_MODEL
-
-CIR_DIFF_MODEL_    only one series used with standard normal innovation
-
 
 
 1.04) SNP_DST dimensions (only if the innov. distribution = SNP_DST)
@@ -139,20 +116,20 @@ CIR_DIFF_MODEL_    only one series used with standard normal innovation
 
 
 1.06) Number of parts of the DGP model (I):
- 1
+ 4
 
 Selection table:
 ARMA(p,q)_MODEL     2   (AR and MA part)
 STOC_VOLATILITY     2   (AR-part for the mean, AR-part for the volatility)
-ARMA_GARCH_MOD_     4   (AR-part for the mean, ARCH-part and GARCH-part)
+ARMA_GARCH_MOD_     4   (AR-part and MA-part for the mean, ARCH-part and GARCH-part)
 SWITCH_AR_MODEL     2   (Number of states, AR-part)
 MARKOV_SWI_M_AR     2   (Number of states, AR-part)
-CIR_DIFF_MODEL_     1   (Parameters of the diffusion and market price of risk)
-
 
 1.07) Order of every part (I):
- 5
-
+ 1
+ 0
+ 1
+ 0
 
 Selection table:
 ARMA(p,q)_MODEL     AR-order (p) and  MA-order (q)
@@ -164,24 +141,19 @@ ARMA_GARCH_MOD_     AR-order for the mean function
                     MA-order for the mean function
                     ARCH-order
                     GARCH-order
-
 SWITCH_AR_MODEL     Number of states
                     AR-order (p)
 
 MARKOV_SWI_M_AR     Number of states
                     AR-order (p)
-
-CIR_DIFF_MODEL_     Parameters of the diffusion, order = 5 
-                    
+						  
 
 1.08) Parameters values (R):
-  0.29368 
-  0.07935
-  0.11425
-  0.0 
-  0.12165
-  1.
-  20
+  0.01
+  0.8
+  0.02
+  0.8 
+
 
 The parameters must be written in vertical order. If you do not want the constant, then set its value = 0.
 ARMA(p,q)_MODEL     AR-part: constant, lag(1) ... lag(p)
@@ -194,30 +166,23 @@ ARMA_GARCH_MOD_     AR-part: constant, lag(1) ... lag(n1)
                     MA-part: lag(1) ... lag(n2)
                     ARCH...: constant, lag(1) ... lag(n3)
                     GARCH..: lag(1) ... lag(n4)
-
+		    
 SWITCH_AR_MODEL     vec(P).: P denotes the (N-1)xN TRANSITION MATRIX [P1|P2|...|PN] and Pi is
                              a column vector of transition probabilities from the i-th state
-                             (N=number of states).
-		    IMPORTANT REMARK: the last transition probability has been removed
+									  (N=number of states).
+		              IMPORTANT REMARK: the last transition probability has been removed
                     because equal to 1-sum(Pi, i<>N)
                     AR-part: constant, lag(1) ... lag(p), sigma2
 
 MARKOV_SWI_M_AR     vec(P).: P denotes the (N-1)xN TRANSITION MATRIX [P1|P2|...|PN] and Pi is
                     a column vector of transition probabilities from the i-th state 
-                    (N=number of states).
-                    IMPORTANT REMARK: the last transition probability has been removed
-                                      because equal to 1-sum(Pi, i<>N)
-                                      AR-part: constant(state=1), ..., constant(state=N), lag(1) ... lag(p), sigma2
-
-CIR_DIFF_MODEL_    1) dr = rho(1) * (rho(2) - r) dt + rho(3) * sqrt(r) dW  (diffusion under martingale equiv. measure)
-                   2) lambda = lambda(1) + lambda(2)*sqrt(r)               (market price of risk)
-                   3) the maturity as a year's fraction
-                   4) the degree of discretization used to approximate the continuous time process by
-                      a Milstein discretization scheme.
-                      In order to have stationarity of r it is required that lambda(2) < rho(1)
+						  (N=number of states).
+						  IMPORTANT REMARK: the last transition probability has been removed
+						  because equal to 1-sum(Pi, i<>N)
+						  AR-part: constant(state=1), ..., constant(state=N), lag(1) ... lag(p), sigma2
 
 1.09) The number of observations to discard in the simulation:
-100
+5000
 
 
 
@@ -227,12 +192,12 @@ CIR_DIFF_MODEL_    1) dr = rho(1) * (rho(2) - r) dt + rho(3) * sqrt(r) dW  (diff
 *****************************************************
 
 2.01) Contamination model: 0=no contamination, 1=contamination
- 0            -> Additive outliers
+ 1            -> Additive outliers
  0            -> Innovation outliers (as many as number of IID series!)
  0
 
 2.02) Epsilon contamination:
-  0.005        -> Additive outliers
+  0.01        -> Additive outliers
   0.01         -> Innovation outliers (as many as number of IID series!)
   0.01
 
@@ -251,7 +216,7 @@ _DIRAC_,   6.5,  0.0
 
 
 Selection table of the innovations of every iid series:
-
+   
 _DIRAC_     
 UNIFORM  lower_bound upper bound
 NORMAL_  mean variance
@@ -267,144 +232,116 @@ STUDENT  df mean variance
 
 
 
-3.02) Name of the auxiliary model (MULTISTEPS_SNP_ or just another name if not the case)
-MULTI_VAR_ARCH_
-mammamia_mamma_
-MULTISTEPS_SNP_
-MULTI_VAR_ARCH_
-
-3.03) Number of time series 
- 2
-
-
-3.04) Number of lags in the conditional mean, >=0:
- 1	
- 1
-
-
-3.05) Volatility estimation: first arch then garch orders or list of arch orders if
-      the number of time series > 1:
- 2
- 3 
 
 
 
-3.06) Dimension of the polynomial, pol_dim >=0:
- 0
-
-
-
-3.07) Maximal degree of every polynomial, pol_deg(i) >=0:
- 2
- 0
-
-
-3.08) Score covariance matrix: 1=Outproduct, 2=Newey-West, 3=Gallant
- 2
-
-
-
-3.09) Number of lags for the Newey-West method, >=0:
- 2 
-
-
-
-3.10) Estimates covariance matrix: 1=Identity Hessian, 2=Estimate the Hessian
+3.02) Number of lags in the conditional mean, >=0:
  1
 
 
 
-3.11) Aux. Hessian matrix estimation: 1=Outproduct, 2=second derivatives
- 2
-
-
-3.12) Increment used to numerically approximate the Hessian of the aux. model
-0.000001
-
-
-3.13) Starting values for the cond. mean, first the constant then AR-parameters:
-      For a VAR(p) process the matrix beta = vec[B] where B denotes the matrix of
-      coefficients [c B_1 B_2 ... B_p], B_i (K x K) matrix of lag i.
-exclude    restrict     value        LBound         UBound
-   f          f         0.0          f >  0.        f <  0.
-   f          f         0.0          f > -1.        f <  1.
-   f          f         0.0          f > -1.        f <  1.
-   f          f         0.0          f > -1.        f <  1.
-   f          f         0.0          f > -1.        f <  1.
-   f          f         0.0          f > -1.        f <  1.
-
-
-3.14) Starting values for the cond. variance. First the constant, arch and garch param. or
-      for a VAR(p) process with K variables the constant, arch param. (consecutively, for 
-      every variable) and finally the (K**2-K)/2 correlations.
-exclude    restrict     value        LBound         UBound
-   f          f         0.3          t >  0.        f <  1.
-   f          f         0.3          t >  0.        f <  1.
-   f          f         0.3          t >  0.        f <  1.
-   f          f         0.3          t >  0.        f <  1.
-   f          f         0.3          t >  0.        f <  1.
-   f          f         0.2          t >  0.        f <  1.
-   f          f         0.2          t >  0.        f <  1.
-   f          f         0.5          t > -1.        t <  1.
-
-
-3.15) Starting values for the polynomial coefficient (I R):
-exclude    restrict     value        LBound         UBound
-   t          f         1.0          f >  0.        f <  0.
-   f          f         0.0          f >  0.        f <  0.
-   f          f         0.0          f >  0.        f <  0.
-   f          f         0.0          f >  0.        f <  0.
-   f          f         0.0          f >  0.        f <  0.
-
-
-3.16) Grid_search parameters (only for the non excluded parameters!):
-T/F   LBound       UBound         #intervals
- f     0.           0.2                3
- f     0.3          0.7                3
- f     0.01         0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
- f    -0.2          0.2                3
-
-
-3.17) Lower bound parameter in the SNP density, epsilon_0:
- 0.001
-
-
-
-3.18) The number of linear constraints (nblc) on the auxiliary parameters:
- 2
-
-
-
-3.19) Input the parameter defining the linear constraints:
-A (nblc x nb_free_par)           T/F    LowerBound    T/F      UpperBound 
-0. 0. 0. 0. 0. 0. 0. 1. 1. 0. 0. 0. 0. 0.       f      0.            t        1
-0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 1. 1. 0.       f      0.            t        1
-
-
-
-3.20) The number of non linear constraints on the auxiliary parameters:
+3.03) Volatility estimation: first arch then garch orders:
+ 1
  0 
 
 
 
-3.21) Center and scale: 1 (0) means (not) to center the series. The same for scale.
+3.04) Dimension of the polynomial, pol_dim >=0:
+ 0
+
+
+
+3.05) Maximal degree of every polynomial, pol_deg(i) >=0:
+ 1
+ 1
+
+
+3.06) Score covariance matrix: 1=Outproduct, 2=Newey-West, 3=Gallant
+ 2
+
+
+
+3.07) Number of lags for the Newey-West method, >=0:
+ 2 
+
+
+
+3.08) Estimates covariance matrix: 1=Identity Hessian, 2=Estimate the Hessian
+ 1
+
+
+
+3.09) Aux. Hessian matrix estimation: 1=Outproduct, 2=second derivatives
+ 2
+
+
+3.10) Increment used to numerically approximate the Hessian of the aux. model
+0.000001
+
+
+3.11) Starting values for the cond. mean, first the constant then AR-parameters (I R):
+exclude    restrict     value        LBound         UBound
+   f          f         0.01         f >  0.        f <  0.
+   f          f         0.8          f >  0.        t <  1.
+
+
+3.12) Starting values for the cond. variance. First the constant, arch and garch param. (I R):
+exclude    restrict     value        LBound         UBound
+   f          f         0.02         t >  0.        f <  1.
+   f          f         0.8          t >  0.        t <  1.
+
+
+
+3.13) Starting values for the polynomial coefficient (I R):
+exclude    restrict     value        LBound         UBound
+   t          f         1.0          f >  0.        f <  0.
+   f          f         0.0          f >  0.        f <  1.
+   f          f         0.0          f >  0.        f <  0.
+   f          f         0.0          f >  0.        f <  1.
+
+
+3.14) Grid_search parameters (only for the non excluded parameters!):
+T/F   LBound       UBound         #intervals
+ f     0.3          0.7                9
+ t     0.3          0.7                9
+ t     0.1          0.2                9
+ t    -0.20         0.20               9
+ t     0.01         0.3                3
+ t     0.01         0.3                3
+ t    -1.           1.                 5
+ t    -1.           1.                 5
+ t    -1.           1.                 5
+
+
+3.15) Lower bound parameter in the SNP density, epsilon_0:
+ 0.001
+
+
+
+3.16) The number of linear constraints (nblc) on the auxiliary parameters:
+ 0
+
+
+
+3.17) Input the parameter defining the linear constraints:
+A (nblc x nb_free_par)           T/F    LowerBound    T/F      UpperBound 
+0. 0. 0. 0. 0. 1. 1.              f      0.            t        0.99999
+
+
+
+3.18) The number of non linear constraints on the auxiliary parameters:
+ 0 
+
+
+
+3.19) Center and scale: 1 (0) means (not) to center the series. The same for scale.
  0
  0
 
 
 
-3.22) Compute the gradient: 0=numerical approximation, 1=exact computation
- 0
+3.20) Compute the gradient: 0=numerical approximation, 1=exact computation
+ 1
 
 
 
@@ -415,15 +352,15 @@ A (nblc x nb_free_par)           T/F    LowerBound    T/F      UpperBound
 ********************************************************
 
 4.01) Name of the structural model (CHARACTER 15):
-CIR_DIFF_MODEL_
+ARMA_GARCH_MOD_
 
 Select between: ARMA(p,q)_MODEL - STOC_VOLATILITY - ARMA_GARCH_MOD_
-                SWITCH_AR_MODEL - MARKOV_SWI_M_AR - CIR_DIFF_MODEL_
+                SWITCH_AR_MODEL - MARKOV_SWI_M_AR
 
 
 
 4.02) Number of parts of the structural model (I):
- 1
+ 4
 
 Selection table:
 ARMA(p,q)_MODEL     2   (AR-part and MA-part)
@@ -431,11 +368,13 @@ STOC_VOLATILITY     2   (AR-part for the mean, AR-part for the volatility)
 ARMA_GARCH_MOD_     4   (AR-part and MA-part for the mean, ARCH-part and GARCH-part)
 SWITCH_AR_MODEL     2   (Number of states, AR-part)
 MARKOV_SWI_M_AR     2   (Number of states, AR-part)
-CIR_DIFF_MODEL_     1   (Parameters of the diffusion and market price of risk)
-
+		    
 
 4.03) Order of every part (I):
- 5
+ 1
+ 0
+ 1
+ 0
 
 Selection table:
 ARMA(p,q)_MODEL     AR-order and MA-order
@@ -453,21 +392,13 @@ SWITCH_AR_MODEL     Number of states
 
 MARKOV_SWI_M_AR     Same as SWITCH_AR_MODEL
 
-CIR_DIFF_MODEL_     Parameters of the diffusion, order = 5 
-
-
 
 4.04) Starting values for the structural parameters:
 exclude    restrict     value        LBound         UBound
-   t          f          0.29368          f >  0.        f <  1.
-   f          f          0.07935          f >  0.        f <  1.
-   f          f          0.11425          t >  0.        f <  1.
-   t          f          0.               f >  0.        f <  1.
-   f          f          0.02165          t >  0.        f <  1.
-   1.
-  20
-
-
+   f          f          0.01        f >  0.        f <  1.
+   f          f          0.8         t > -1.        t <  1.
+   f          f          0.02        t >  0.        f <  1.
+   f          f          0.8         t >  0.        t <  1.
 
 
 The parameters must be written in vertical order. If you don't want the constant, then set its value = 0.
@@ -496,22 +427,12 @@ MARKOV_SWI_M_AR     vec(P).: P denotes the (N-1)xN TRANSITION MATRIX [P1|P2|...|
                     AR-part: constant(state=1), ..., constant(state=N), lag(1) ... lag(p), sigma2
 
 
-CIR_DIFF_MODEL_    1-3) dr = rho(1) * (rho(2) - r) dt + rho(3) * sqrt(r) dW  (diffusion under martingale equiv. measure)
-                   4-5) lambda = lambda(1) + lambda(2)*sqrt(r)               (market price of risk)
-                     6) the maturity as a year's fraction
-                     7) the degree of discretization used to approximate the continuous time process by
-                        a Milstein discretization scheme.
-                        In order to have stationarity of r it is required that lambda(2) < rho(1)                   
-
-
 4.05) Grid_search parameters (only for the free parameters!):
 T/F   LBound       UBound         #intervals
  f     0.0          0.1            1
- f     0.5          0.9            2
- f     0.0          0.2            2
- f     0.1          0.9            8
- f     0.1          0.9            8
- f     0.1          0.9            8
+ t     0.5          0.9            2
+ t     0.0          0.2            2
+ t     0.1          0.9            8
 
 
 4.06) The number of linear constraints (nblc) on the structural parameters:
@@ -521,8 +442,7 @@ T/F   LBound       UBound         #intervals
 
 4.07) Input the parameter defining the linear constraints:
 A (nblc x nb_free_par)          T/F    LowerBound    T/F      UpperBound 
-0.  0.  0.  0.  1.  1.           f          0.        t            1.
-0.  1.  0.  0.  0.  0.           t          0.        f            1.
+0. 0. 0. 0. 1. 1.                f       0.           t       1.
 
 
 4.08) Number of iid series necessary for the simulation of the SM:
@@ -533,21 +453,19 @@ STOC_VOLATILITY     2
 ARMA_GARCH_MOD_     1
 SWITCH_AR_MODEL     1 + nb. states
 MARKOV_SWI_M_AR     1 + nb. states
-CIR_DIFF_MODEL_     1
-
 
 4.09) The length of the simulation used to approximate the expectation:
-50000
+25000
 
 
 
 4.10) The number of observations to discard in the simulation:
- 0 
+5000 
 
 
 
 4.11) The maximal lenght of the simulation (MUST BE .GE. 4.09)
-50000
+100000
 
 
 4.12) Analyse the accuracy of the approx. of the expectation (t or f)?
@@ -587,7 +505,7 @@ Selection table:
 **********************************************************
 
 5.01) Set the bound c of the robustness degree:
- 8.0 
+ 9.0 
 
 
 5.02) Set the metric used to calculate the weights: 0=simple, 1=efficient
@@ -608,7 +526,7 @@ Selection table:
 
 5.07) Classic estimates as starting values: t=yes, f=no
  t   (auxiliary  parameters)
- t   (structural parameters)
+ f   (structural parameters)
 
 5.08) Select the maximal nb. of loops in the robust estimation:
  50
@@ -625,7 +543,7 @@ Selection table:
 ***********************************************************************
 6.01) Use npsol as solver at: step_1, step_2, step_1_rob, step_2_rob
       0=npsol, 1=mia, 2=amoeba, 3=dfo
- 0 0 0 0
+ t t t t
 
 
 6.02) Set the bound used to define the infinity when bounding the parameters (R): default 10^20.
@@ -666,56 +584,56 @@ step_2_rob:  0.9
 
 6.07) Set the step limit, i.e. the maximum change in variables in the first step
                    of line search (default = 2.0)
-step_1....:  0.05 
-step_2....:  0.05 
-step_1_rob:  0.2
+step_1....:  1.0 
+step_2....:  1.0 
+step_1_rob:  0.01
 step_2_rob:  0.2
-
-
-
-6.08) Set the Difference interval (default = computed)
-step_1....:  -1
-step_2....:  -1             0.00001
-step_1_rob:  -1
-step_2_rob:  -1
-
-
-6.09) Set the Central difference interval (default = computed)
-step_1....:  -1
-step_2....:  -1             0.00001 
-step_1_rob:  -1
-step_2_rob:  -1
 						 
 
-6.10) Set the crash tolerance used in conjunction with the Cold start, default = 0.01 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6.08) Set the crash tolerance used in conjunction with the Cold start, default = 0.01 
 0.000001
 
 
 
-6.11) Set the maximal number of major iterations permitted before termination:
-500
+6.09) Set the maximal number of major iterations permitted before termination:
+100
 
 
 
-6.12) Set the maximal number of iterations for the optimization phase of each QP subproblem:
+6.10) Set the maximal number of iterations for the optimization phase of each QP subproblem:
 50
 
 
 
-6.13) Set the Nolist option: 0=print the option listing, 1=suppress it.
+6.11) Set the Nolist option: 0=print the option listing, 1=suppress it.
                              Nolist and Print file = 0 suppresses all printing, including
                              error messages
 0
 
 
 
-6.14) Print File option:  0=suppresses any printing not associated with the optional parameters,
+6.12) Print File option:  0=suppresses any printing not associated with the optional parameters,
                          -1=default, or i=unit number to which the output must be sent.
 -1
 
 
 
-6.15) Set the major print level:  0=is the default, i.e. no output exept error messages
+6.13) Set the major print level:  0=is the default, i.e. no output exept error messages
                                   1=the final solution
                                   5=one line of output for each iteration (but no final solution)
                                  10=the final solution and one line of output for each iteration
@@ -723,7 +641,7 @@ step_2_rob:  -1
 
 
 
-6.16) Set the minor print level:  0=is the default, i.e. no output exept error messages
+6.14) Set the minor print level:  0=is the default, i.e. no output exept error messages
                                   1=The final QP solution
                                   5=One line of output for each minor iter. (but no final QP solution)
                                  10=The final QP solution and one brief line of output for each min. iter.
@@ -731,61 +649,5 @@ step_2_rob:  -1
 
 
 
-6.17) Verify gradients options: 0=don't verify, 1=verify.
+6.15) Verify gradients options: 0=don't verify, 1=verify.
 0
-
-******************************************************
-SECTION #7 amoeba
-******************************************************
-
-7.01) Set the ftol parameters (real)
-0.0001
-
-7.02) Set for the classical step 2 the lambda parameter where dim(lambda)=SM_nb_par 
-  -0.2  0.2  -0.15  1.5 -0.3  0.3
-
-
-
-   f          f          0.9         t >  0.        t <  1.
-   f          f          0.1         t >  0.        t <  1.
-   f          f          0.0         f > -1.        f <  1.
-   f          f          1.0         f > -1.        f <  1.
-   f          f          0.8         t > -1.        t <  1.
-   f          f          0.04        t >  0.        f <  1.
-
-
-******************************************************
-SECTION #8 DFO
-******************************************************
-
-8.01) Enter a name of the problem, (10 characters)
-EMM_STEP_2
-
-
-8.02) Enter the number NX of initial points, N >= 1
-5
-
-
-8.03) Enter in a column the names of the `SM_nb_free_par' parameters (10 char.)
-costante
-ar1
-sigma2
-ma1
-
-8.04) Provide the initial function values? (t or f)
-t
-
-
-8.05) Enter NX-1 initial points (first point is always the starting value!)
-      Dimension: (NX-1) x (dim(SM_nb_fre_par))
-0.05   0.65   1.1   0.35 
--0.05  0.6    1.1   0.35 
-0.0    0.55   0.9   0.35
-0.0    0.6    0.85  0.25 
-
-
-8.06) Enter in a column the names of the `nclin2` linear restrictions and of the
-      `ncnln2` non linear constraints (10 char.)
-par1
-par2
-par3

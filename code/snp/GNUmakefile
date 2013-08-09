@@ -11,6 +11,7 @@ OBJS := snp1.o snp2.o snp3.o snp4.o snp5.o remm.o
 remm : subsystem $(OBJS) 
 	$(FF) -o remm $(OBJS) ../npsol/libnpsol.a ../lapack/libmylapack.a
 	rm $(OBJS) *.mod
+	mv remm ../../run/remm
 subsystem:
 	$(MAKE) -f GNUmakefile_stat -C $(NPSOL_DIR)
 	$(MAKE) -f GNUmakefile_stat -C $(LAPACK_DIR)
@@ -28,6 +29,6 @@ remm.o : remm.f90 snp5.o snp4.o snp3.o snp2.o snp1.o
 	$(FF) -Wall -c remm.f90
 .PHONY : clean
 clean: 
-	rm remm
+	../../run/piazza_pulita
 	$(MAKE) clean -f GNUmakefile_stat -C $(NPSOL_DIR)
 	$(MAKE) clean -f GNUmakefile_stat -C $(LAPACK_DIR)

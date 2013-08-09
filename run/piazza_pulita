@@ -1,0 +1,4 @@
+rm *.txt *.dat fort.3 setup.new
+rm out*
+cp setup.bak setup.dat
+

@@ -4,7 +4,6 @@ FF = gfortran -O2
 #Define the NPSOL directory
 NPSOL_DIR = ../npsol/
 LAPACK_DIR = ../lapack/
-DFO_DIR = ../dfo/
 
 #Define the objects files
 OBJS := snp1.o robust_utilities.o snp_npsol.o ar_A.o ar_garch_A.o arma_A.o arma_garch_A.o ols_A.o \
@@ -15,11 +14,11 @@ remm : subsystem $(OBJS)
 #	gfortran -o remm snp7.o snp1.o snp2.o ccc_garch.o snp3.o snp4.o snp5.o snp6.o ../dfo/libdfo.so ../lapack/libmylapack.so ../npsol/libnpsol.so
 	$(FF) -o remm $(OBJS) ../npsol/libnpsol.a ../lapack/libmylapack.a
 	rm $(OBJS) *.mod
-	cp remm ../../../run/remm
+	mv remm ../../run/remm
 subsystem:
 	$(MAKE) -f GNUmakefile_stat -C $(NPSOL_DIR)
 	$(MAKE) -f GNUmakefile_stat -C $(LAPACK_DIR)
-	$(MAKE) -f GNUmakefile_stat -C $(DFO_DIR)
+
 snp1.o : snp1.f90  
 	$(FF) -Wall -c snp1.f90
 snp_npsol.o : snp1.o snp_npsol.f90
@@ -62,4 +61,6 @@ snp7.o : snp1.o snp_npsol.o snp_B.o snp7.f90
 	$(FF) -Wall -c snp7.f90
 .PHONY : clean
 clean: 
-	rm $(OBJS) *.o *.mod remm
+	../../run/piazza_pulita
+	$(MAKE) clean -f GNUmakefile_stat -C $(NPSOL_DIR)
+	$(MAKE) clean -f GNUmakefile_stat -C $(LAPACK_DIR)

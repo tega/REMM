@@ -43,7 +43,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="code1|code|amoeba" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="code|amoeba|code1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry excluding="code1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="code"/>
 					</sourceEntries>
 				</configuration>
@@ -87,7 +87,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="amoeba|code|code1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="code|amoeba|code1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry excluding="amoeba|code1" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="code"/>
 					</sourceEntries>
 				</configuration>
