@@ -1,0 +1,65 @@
+#Define the fortran 77/90 compiler
+FF = gfortran -O2 -fPIC
+
+#Define the NPSOL directory
+NPSOL_DIR = /home/claudio/workspace/REMM/code/Fortran/npsol/
+LAPACK_DIR = /home/claudio/workspace/REMM/code/Fortran/lapack/
+DFO_DIR = /home/claudio/workspace/REMM/code/Fortran/dfo/
+
+#Define the objects files
+OBJS := snp1.o robust_utilities.o snp_npsol.o ar_A.o ar_garch_A.o arma_A.o arma_garch_A.o ols_A.o \
+	stoch_vol_model_A.o ts_ols_A.o var_A.o ccc_garch_A.o G_psi_t.o snp_B.o ccc_garch_B.o \
+	arma_garch_B.o generic_subroutines.o approximation_m_rho.o steps.o snp7.o 
+
+remm : subsystem $(OBJS) 
+	$(FF) -o remm $(OBJS) -L $(NPSOL_DIR) -lnpsol -L $(DFO_DIR) -ldfo -L $(LAPACK_DIR) -lmylapack
+	rm $(OBJS) *.mod
+	cp remm ../../../run/remm
+#	gfortran -o remm snp7.o snp1.o snp2.o ccc_garch.o snp3.o snp4.o snp5.o snp6.o ../dfo/libdfo.so ../lapack/libmylapack.so ../npsol/libnpsol.so
+subsystem:
+	$(MAKE) -f GNUmakefile_dyn -C $(NPSOL_DIR)
+	$(MAKE) -f GNUmakefile_dyn -C $(LAPACK_DIR)
+	$(MAKE) -f GNUmakefile_dyn -C $(DFO_DIR)
+snp1.o : snp1.f90  
+	$(FF) -Wall -c snp1.f90
+snp_npsol.o : snp1.o snp_npsol.f90
+	$(FF) -Wall -c snp_npsol.f90
+ar_A.o : snp1.o ar_A.f90
+	$(FF) -Wall -c ar_A.f90
+ar_garch_A.o : snp1.o ar_garch_A.f90
+	$(FF) -Wall -c ar_garch_A.f90
+arma_A.o : snp1.o arma_A.f90
+	$(FF) -Wall -c arma_A.f90 
+arma_garch_A.o : snp1.o arma_garch_A.f90
+	$(FF) -Wall -c arma_garch_A.f90
+ols_A.o : snp1.o ols_A.f90
+	$(FF) -Wall -c ols_A.f90
+stoch_vol_model_A.o : snp1.o stoch_vol_model_A.f90
+	$(FF) -Wall -c stoch_vol_model_A.f90
+ts_ols_A.o : snp1.o ts_ols_A.f90
+	$(FF) -Wall -c ts_ols_A.f90
+var_A.o : snp1.o var_A.f90
+	$(FF) -Wall -c var_A.f90
+ccc_garch_A.o : snp1.o ar_garch_A.o var_A.o ts_ols_A.o ccc_garch_A.f90
+	$(FF) -Wall -c ccc_garch_A.f90
+G_psi_t.o : snp1.o ccc_garch_A.o arma_garch_A.o G_psi_t.f90
+	$(FF) -Wall -c G_psi_t.f90
+robust_utilities.o : snp1.o G_psi_t.o robust_utilities.f90
+	$(FF) -Wall -c robust_utilities.f90
+snp_B.o : snp1.o G_psi_t.o ccc_garch_A.o robust_utilities.o snp_B.f90
+	$(FF) -Wall -c snp_B.f90
+ccc_garch_B.o : snp1.o snp_B.o snp_npsol.o ccc_garch_A.o ccc_garch_B.f90
+	$(FF) -Wall -c ccc_garch_B.f90
+arma_garch_B.o : snp1.o snp_B.o snp_npsol.o arma_garch_A.o arma_garch_B.f90
+	$(FF) -Wall -c arma_garch_B.f90
+generic_subroutines.o : snp1.o ccc_garch_A.o generic_subroutines.f90
+	$(FF) -Wall -c generic_subroutines.f90
+approximation_m_rho.o: snp1.o snp_B.o approximation_m_rho.f90
+	$(FF) -Wall -c approximation_m_rho.f90
+steps.o : snp1.o snp_B.o approximation_m_rho.o robust_utilities.o arma_garch_B.o ccc_garch_B.o snp_npsol.o steps.f90
+	$(FF) -Wall -c steps.f90
+snp7.o : snp1.o snp_npsol.o snp_B.o snp7.f90
+	$(FF) -Wall -c snp7.f90
+.PHONY : clean
+clean: 
+	rm $(OBJS) *.o *.mod remm

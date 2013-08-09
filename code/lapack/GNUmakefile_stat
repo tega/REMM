@@ -1,0 +1,80 @@
+#Define the fortran 77/90 compiler
+#FF = ifc 
+FF = gfortran -O2
+
+
+#Define the objects files
+OBJS := dasum.o dgeqr2.o dlamch.o dlarfg.o dpocon.o dsyrk.o ilaenv.o 
+
+OBJS += dgemm.o dlabad.o dlapy2.o dlatrs.o dpotf2.o dtrsm.o lsame.o \
+	dgeqpf.o dlacon.o dlarf.o dorm2r.o drscl.o ieeeck.o xerbla.o
+
+libmylapack.a : $(OBJS)
+	ar cr libmylapack.a *.o
+
+dasum.o : dasum.f 
+	$(FF) -c dasum.f
+
+dgeqr2.o : dgeqr2.f
+	$(FF) -c dgeqr2.f
+
+dlamch.o : dlamch.f
+	$(FF) -c dlamch.f
+
+dlarfg.o : dlarfg.f
+	$(FF) -c dlarfg.f
+
+dpocon.o : dpocon.f
+	$(FF) -c dpocon.f
+
+dsyrk.o : dsyrk.f
+	$(FF) -c dsyrk.f
+
+ilaenv.o : ilaenv.f
+	$(FF) -c ilaenv.f
+
+dgemm.o : dgemm.f
+	$(FF) -c dgemm.f
+
+dlabad.o : dlabad.f
+	$(FF) -c dlabad.f
+
+dlapy2.o : dlapy2.f
+	$(FF) -c dlapy2.f
+
+dlatrs.o : dlatrs.f
+	$(FF) -c dlatrs.f
+
+dpotf2.o : dpotf2.f
+	$(FF) -c dpotf2.f
+
+dtrsm.o : dtrsm.f
+	$(FF) -c dtrsm.f
+
+lsame.o : lsame.f
+	$(FF) -c lsame.f
+
+dgeqpf.o : dgeqpf.f
+	$(FF) -c dgeqpf.f
+
+dlacon.o : dlacon.f
+	$(FF) -c dlacon.f
+
+dlarf.o : dlarf.f
+	$(FF) -c dlarf.f
+
+dorm2r.o : dorm2r.f
+	$(FF) -c dorm2r.f
+
+drscl.o : drscl.f
+	$(FF) -c drscl.f
+
+ieeeck.o : ieeeck.f
+	$(FF) -c ieeeck.f
+
+xerbla.o : xerbla.f
+	$(FF) -c xerbla.f
+
+.PHONY : clean
+clean: 
+	rm $(OBJS)
