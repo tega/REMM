@@ -1,5 +1,5 @@
 #Define the fortran 77/90 compiler
-FF = gfortran -O2
+FF = gfortran -O3
 
 
 #Define the objects files

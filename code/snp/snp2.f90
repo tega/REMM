@@ -16,10 +16,11 @@ CONTAINS
     REAL (KIND=realkind), INTENT(IN OUT), DIMENSION(1:T) :: time_series
     INTEGER, INTENT(IN) :: unit_nb
 
-    INTEGER :: i, is_contaminated, is_simulated, start, dim_mu, dim_arch, dim_garch, dim_sigma
+    INTEGER :: i, is_contaminated, is_simulated
+    ! remove this line, start, dim_mu, dim_arch, dim_garch, dim_sigma
     REAL (KIND=realkind), DIMENSION(1:T+DGP_nb_discard,DGP_nb_iid_series) :: iid
     REAL (KIND=realkind), DIMENSION(1:T+DGP_nb_discard,1) :: iid_temp
-    REAL (KIND=realkind), DIMENSION(1,1) :: iid_temp_bis
+    ! remove this line REAL (KIND=realkind), DIMENSION(1,1) :: iid_temp_bis
     REAL (KIND=realkind), DIMENSION(1:nb_contam_points(1)) :: additive_contam_points
     REAL (KIND=realkind), DIMENSION(1:nb_contam_points(1)) :: zero_additive_contam_points
     REAL (KIND=realkind), ALLOCATABLE, DIMENSION(:,:) :: simulated_not_observable

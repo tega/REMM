@@ -541,22 +541,18 @@ Selection table:
 ***********************************************************************
 #6 SECTION NPSOL SETUP AND PRINT OPTIONS: USE -1 TO ACCEPT THE DEFAULTS
 ***********************************************************************
-6.01) Use npsol as solver at: step_1, step_2, step_1_rob, step_2_rob
-      0=npsol, 1=mia, 2=amoeba, 3=dfo
- t t t t
 
-
-6.02) Set the bound used to define the infinity when bounding the parameters (R): default 10^20.
+6.01) Set the bound used to define the infinity when bounding the parameters (R): default 10^20.
 -1    
 
 
 
-6.03) Set the max. acceptable absolute violation in the constraints (R): default e^0.5.
+6.02) Set the max. acceptable absolute violation in the constraints (R): default e^0.5.
 -1
 
 
 
-6.04) Set the function precision, denoted eR, i.e. the measure of the accuracy
+6.03) Set the function precision, denoted eR, i.e. the measure of the accuracy
       in the objective function computation (R): default e^0.9.
 step_1....:  -1
 step_2....:  -1 
@@ -565,7 +561,7 @@ step_2_rob:  -1
 
 
 
-6.05) Set the optimality tolerance accuracy in the approximation of the final
+6.04) Set the optimality tolerance accuracy in the approximation of the final
       solution of the problem (R), default eR^0.8.
 step_1....:  -1
 step_2....:  -1
@@ -574,7 +570,7 @@ step_2_rob:  -1
 
 
 
-6.06) Set the line search tolerance r, 0 <= r < 1, default = 0.9
+6.05) Set the line search tolerance r, 0 <= r < 1, default = 0.9
                    smaller for more accurate search
 step_1....:  0.9
 step_2....:  0.9
@@ -582,7 +578,7 @@ step_1_rob:  0.9
 step_2_rob:  0.9
 
 
-6.07) Set the step limit, i.e. the maximum change in variables in the first step
+6.06) Set the step limit, i.e. the maximum change in variables in the first step
                    of line search (default = 2.0)
 step_1....:  1.0 
 step_2....:  1.0 
@@ -590,50 +586,35 @@ step_1_rob:  0.01
 step_2_rob:  0.2
 						 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6.08) Set the crash tolerance used in conjunction with the Cold start, default = 0.01 
+6.07) Set the crash tolerance used in conjunction with the Cold start, default = 0.01 
 0.000001
 
 
 
-6.09) Set the maximal number of major iterations permitted before termination:
+6.08) Set the maximal number of major iterations permitted before termination:
 100
 
 
 
-6.10) Set the maximal number of iterations for the optimization phase of each QP subproblem:
+6.09) Set the maximal number of iterations for the optimization phase of each QP subproblem:
 50
 
 
 
-6.11) Set the Nolist option: 0=print the option listing, 1=suppress it.
+6.10) Set the Nolist option: 0=print the option listing, 1=suppress it.
                              Nolist and Print file = 0 suppresses all printing, including
                              error messages
 0
 
 
 
-6.12) Print File option:  0=suppresses any printing not associated with the optional parameters,
+6.11) Print File option:  0=suppresses any printing not associated with the optional parameters,
                          -1=default, or i=unit number to which the output must be sent.
 -1
 
 
 
-6.13) Set the major print level:  0=is the default, i.e. no output exept error messages
+6.12) Set the major print level:  0=is the default, i.e. no output exept error messages
                                   1=the final solution
                                   5=one line of output for each iteration (but no final solution)
                                  10=the final solution and one line of output for each iteration
@@ -641,7 +622,7 @@ step_2_rob:  0.2
 
 
 
-6.14) Set the minor print level:  0=is the default, i.e. no output exept error messages
+6.13) Set the minor print level:  0=is the default, i.e. no output except error messages
                                   1=The final QP solution
                                   5=One line of output for each minor iter. (but no final QP solution)
                                  10=The final QP solution and one brief line of output for each min. iter.
@@ -649,5 +630,5 @@ step_2_rob:  0.2
 
 
 
-6.15) Verify gradients options: 0=don't verify, 1=verify.
+6.14) Verify gradients options: 0=don't verify, 1=verify.
 0

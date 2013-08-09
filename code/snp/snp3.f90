@@ -483,8 +483,7 @@ CONTAINS
     USE GRID_SEARCH_SM
     IMPLICIT NONE
 
-    INTEGER :: i,j,counter
-    REAL (KIND=realkind) :: interval_lenght
+    INTEGER :: i
 
     !check the feasibility of the grid search
     do_grid_search_SM = .FALSE.
@@ -1847,20 +1846,14 @@ CONTAINS
 
     !#6 SECTION NPSOL SETUP AND PRINT OPTIONS
     npsol_first_call = .TRUE.
-    CALL MOVE_TO(tmp_unit_nb,"6.01)")
-    READ (UNIT=tmp_unit_nb,FMT="(A)") text
-    READ (UNIT=tmp_unit_nb,FMT=*) use_npsol
-    IF (write_output_2) THEN
-       WRITE(UNIT=log_unit_nb,FMT=*) space, "use_npsol................", use_npsol
-    END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.02)")
+    CALL MOVE_TO(tmp_unit_nb,"6.01)")
     READ (UNIT=tmp_unit_nb,FMT=*) infinite_bound_size
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "infinite_bound_size......", infinite_bound_size
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.03)")
+    CALL MOVE_TO(tmp_unit_nb,"6.02)")
     READ (UNIT=tmp_unit_nb,FMT=*) feasibility_tolerance
     IF (feasibility_tolerance .EQ. -1._realkind) THEN
        feasibil_toler = sqrt(EPSILON(eps))
@@ -1881,7 +1874,7 @@ CONTAINS
        END IF
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.04)")
+    CALL MOVE_TO(tmp_unit_nb,"6.03)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) text11, function_precision(1)
     READ (UNIT=tmp_unit_nb,FMT=*) text11, function_precision(2)
@@ -1907,7 +1900,7 @@ CONTAINS
        END IF
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.05)")
+    CALL MOVE_TO(tmp_unit_nb,"6.04)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) text11, optimality_tolerance(1)
     READ (UNIT=tmp_unit_nb,FMT=*) text11, optimality_tolerance(2)
@@ -1934,7 +1927,7 @@ CONTAINS
        END IF
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.06)")
+    CALL MOVE_TO(tmp_unit_nb,"6.05)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) text11, line_search_tolerance(1)
     READ (UNIT=tmp_unit_nb,FMT=*) text11, line_search_tolerance(2)
@@ -1947,7 +1940,7 @@ CONTAINS
        WRITE(UNIT=log_unit_nb,FMT=*) space, "line_s._tolerance  s2 rob", line_search_tolerance(4)
     END IF
     
-    CALL MOVE_TO(tmp_unit_nb,"6.07)")
+    CALL MOVE_TO(tmp_unit_nb,"6.06)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) text11, step_limit(1)
     READ (UNIT=tmp_unit_nb,FMT=*) text11, step_limit(2)
@@ -1960,25 +1953,25 @@ CONTAINS
        WRITE(UNIT=log_unit_nb,FMT=*) space, "step_limit for step 2 rob", step_limit(4)
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.08)")
+    CALL MOVE_TO(tmp_unit_nb,"6.07)")
     READ (UNIT=tmp_unit_nb,FMT=*) crash_tolerance
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "crash_tolerance..........", crash_tolerance
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.09)")
+    CALL MOVE_TO(tmp_unit_nb,"6.08)")
     READ (UNIT=tmp_unit_nb,FMT=*) major_iteration_limit
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "major_iteration_limit....", major_iteration_limit
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.10)")
+    CALL MOVE_TO(tmp_unit_nb,"6.09)")
     READ (UNIT=tmp_unit_nb,FMT=*) minor_iteration_limit
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "minor_iteration_limit....", minor_iteration_limit
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.11)")
+    CALL MOVE_TO(tmp_unit_nb,"6.10)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) Nolist
@@ -1986,14 +1979,14 @@ CONTAINS
        WRITE(UNIT=log_unit_nb,FMT=*) space, "Nolist...................", Nolist
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.12)")
+    CALL MOVE_TO(tmp_unit_nb,"6.11)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT=*) Print_File
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "Print_File...............", Print_File
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.13)")
+    CALL MOVE_TO(tmp_unit_nb,"6.12)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
@@ -2002,7 +1995,7 @@ CONTAINS
        WRITE(UNIT=log_unit_nb,FMT=*) space, "major_print_level........", major_print_level
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.14)")
+    CALL MOVE_TO(tmp_unit_nb,"6.13)")
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
     READ (UNIT=tmp_unit_nb,FMT="(A)") text
@@ -2011,7 +2004,7 @@ CONTAINS
        WRITE(UNIT=log_unit_nb,FMT=*) space, "minor_print_level........", minor_print_level
     END IF
 
-    CALL MOVE_TO(tmp_unit_nb,"6.15)")
+    CALL MOVE_TO(tmp_unit_nb,"6.14)")
     READ (UNIT=tmp_unit_nb,FMT=*) verify_gradients
     IF (write_output_2) THEN
        WRITE(UNIT=log_unit_nb,FMT=*) space, "verify_gradients.........", verify_gradients
@@ -3193,11 +3186,10 @@ CONTAINS
     INTEGER, INTENT(IN) :: T_tmp
 
     REAL (KIND=realkind), DIMENSION(1:AM_nb_free_par)      :: beta_restricted_1
-    REAL (KIND=realkind), DIMENSION(1:AM_nb_free_par)      :: beta_restricted_2
     REAL (KIND=realkind), DIMENSION(1:AM_nb_not_fixed_par) :: H_1
     REAL (KIND=realkind), DIMENSION(1:AM_nb_not_fixed_par) :: H_2
 
-    INTEGER :: i,j,i_AM_nb_free_par
+    INTEGER :: i_AM_nb_free_par
 
 100 FORMAT(25(ES10.3,TR1))
 
