@@ -741,9 +741,9 @@ CONTAINS
 
 
     SUBROUTINE SNP_CRITERION_STEP_2(mode, n, rho, q, g, nstate)
-        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_free_par, beta_AM_end, t_start, grad_i, &
+        USE S1_COMMON,   ONLY: AM_nb_free_par, beta_AM_end, t_start, grad_i, &
             inv_score_cov, AM_nb_not_fixed_par, write_output_3, dev_unit_nb
-        USE S2_COMMON,   ONLY: T2, SM_nb_par, rho_SM_start, rho_SM_end, rho_rest_SM_old, &
+        USE S2_COMMON,   ONLY: T2, SM_nb_par, rho_SM_end, rho_rest_SM_old, &
             nb_discard_step_2, random_iid_step_2, nb_iid_series, &
             simulated_series_step_2
         USE Z_MATRIX,    ONLY: is_new2
@@ -820,6 +820,7 @@ CONTAINS
         END DO
 
         IF (write_output_3) THEN
+            WRITE(UNIT=dev_unit_nb,FMT=*) " grad_i=",grad_i
             WRITE(UNIT=dev_unit_nb,FMT=*) "      h=", h
             WRITE(UNIT=dev_unit_nb,FMT=*) "   h'Mh=", q
             WRITE(UNIT=dev_unit_nb,FMT=*)
@@ -848,7 +849,7 @@ CONTAINS
 
     SUBROUTINE ROB_CRITERION_STEP_1(mode, n, beta_restricted, q, g, nstate)
         USE S1_COMMON,   ONLY: N1, AM_nb_not_fixed_par
-        USE S2_COMMON,   ONLY: SM_nb_free_par
+        ! USE S2_COMMON,   ONLY: SM_nb_free_par
         USE ROB_COMMON,  ONLY: psi_N1
         USE MYFUNCTIONS, ONLY: MM
         USE ROBUST_UTILITIES, ONLY: WEIGHTS_HUBER, UPDATE_SCORE_N1, UPDATE_PSI_N1
@@ -911,8 +912,8 @@ CONTAINS
     SUBROUTINE ROB_CRITERION_STEP_2(mode, n, rho, q, g, nstate)
         USE DATATYPES
         USE S1_COMMON,   ONLY: AM_nb_not_fixed_par, AM_nb_free_par, beta_AM_end, &
-            write_output_3, dev_unit_nb
-        USE S2_COMMON,   ONLY: T2, N2, SM_nb_par, rho_SM_end, rho_rest_SM_old, SM_nb_free_par, &
+            dev_unit_nb
+        USE S2_COMMON,   ONLY: T2, N2, SM_nb_par, rho_SM_end, rho_rest_SM_old, &
             nb_discard_step_2, nb_iid_series, simulated_series_step_2, random_iid_step_2
         USE ROB_COMMON,  ONLY: psi_N2, S, weights_metric
         USE Z_MATRIX,             ONLY: is_new2
@@ -1283,7 +1284,9 @@ CONTAINS
         space_lenght = space_lenght + 3
         grid_search_AM_successfull = .FALSE.
         !compute the criterion at the proposed starting value
+
         CALL RESTRICT_BETA(beta_AM_start,beta_restricted)
+
         beta_old = -999999.9_realkind
         j=0
         CALL SNP_CRITERION_STEP_1(j,AM_nb_free_par,beta_restricted,start_log_lik,g,1)
@@ -1435,7 +1438,6 @@ CONTAINS
         CALL SNP_CRITERION_STEP_2(j, SM_nb_free_par, rho_rest_SM_start, f, g, 1)
         !write to the screen the starting values
         write(*,fmt=101) "rho: ", f, rho_SM_start
-
         IF (write_output_2) THEN
             WRITE(UNIT=log_unit_nb,FMT=100) space, "q'Mq |  rho:", f, rho_rest_SM_start
         END IF
@@ -1614,7 +1616,8 @@ CONTAINS
         USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, nclin, ncnln, ldA, ldJ, &
             ldR, A, bl, bu, inform, iter, istate, cJac, clamda, RR, iw, leniw, w, lenw, &
             log_unit_nb, write_output_2, space_lenght, step, derivative_level, &
-            do_grid_search
+            do_grid_search, &
+dev_unit_nb ! rimuovi
         USE Z_MATRIX,       ONLY: beta_old
         USE UTILITIES,      ONLY: RESTRICT_BETA
         USE ROB_COMMON,     ONLY: npsol_inform_step_1_rob, npsol_iter_step_1_rob, &
@@ -1652,6 +1655,8 @@ CONTAINS
         !compute the criterion at the proposed starting value
         beta_old = -999999.9_realkind
         j=0
+write(UNIT=dev_unit_nb,FMT="(A)") "Inizio STEP_1-valore beta_restricted"
+write(UNIT=dev_unit_nb,FMT="(F10.3)") beta_restricted
         CALL ROB_CRITERION_STEP_1(j,AM_nb_free_par,beta_restricted,start_log_lik,g,1)
         IF (write_output_2) THEN
             WRITE(UNIT=log_unit_nb,FMT=100) space, "q'Mq |  the:", start_log_lik, &
@@ -1702,7 +1707,7 @@ CONTAINS
         END IF
 
         IF (write_output_2) THEN
-            WRITE(UNIT=log_unit_nb,FMT=100) space, "q'Mq | ^the:", f, beta_restricted
+            WRITE(UNIT=log_unit_nb,FMT=100) space, "q'Mq final | ^the:", f, beta_restricted
         END IF
 
         IF (nb_rep_monte_carlo .GE. 1) THEN
@@ -2205,7 +2210,7 @@ CONTAINS
 
                 !add the restricted components to the parameter vector rho_SM_end
                 CALL COMPLETE_RHO_RESTRICTED(rho_restricted,rho_SM_end)
-                write(*,FMT=100) "rho: ", minimum_step_2_rob, rho_restricted
+                write(*,FMT=100) "rho finale: ", minimum_step_2_rob, rho_restricted
                 write(*,*)
             END IF
        
@@ -2258,7 +2263,7 @@ CONTAINS
 
             !add the restricted components to the parameter vector rho_SM_end
             CALL COMPLETE_RHO_RESTRICTED(rho_restricted,rho_SM_end)
-            write(*,FMT=100) "rho: ", minimum_step_2_rob, rho_restricted
+            write(*,FMT=100) "rho final : ", minimum_step_2_rob, rho_restricted
             write(*,*)
             rho_restricted_old = rho_restricted
         END IF

@@ -24,10 +24,10 @@
 0.05) Estimate all simulations or only a subset of them:
       0=only a subset
       1=all simulations
- 1
+ 0
 
 0.06) Number of monte carlo simulations and (if 0.05=0) their ID:
-MC simulations (I7):    10
+MC simulations (I7):    1
 Simulation nb. (I7):    3
 Simulation nb. (I7):    3
 
@@ -36,9 +36,9 @@ Simulation nb. (I7):    3
 
 
 0.08) Do you want to store the selected output, t or .FALSE.
- f 
- f 
- f 
+ t 
+ t 
+ t 
 
 
 0.09) Do a grid search: 0=no
@@ -52,7 +52,7 @@ Simulation nb. (I7):    3
 0.10) Repeat gread search for the first 'n' loops:
    n=0: do always
    n>0: do 'n' times
- 1
+ 2
 
 
 ***************************************************

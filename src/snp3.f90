@@ -589,6 +589,7 @@ CONTAINS
     CALL MOVE_TO(tmp_unit_nb,"0.04)")
     READ (UNIT=tmp_unit_nb,FMT=*) T1
 
+    ! se non simuli
     IF (simulate_data .EQ. 0) THEN
        nb_rep_monte_carlo = 0
        estimate_all_mc_simulations = 1
@@ -2358,13 +2359,10 @@ CONTAINS
     REAL (KIND=realkind), DIMENSION(1:AM_nb_par) :: beta
     REAL (KIND=realkind), DIMENSION(t_start:T) :: sum_rec
 
-
     CALL COMPLETE_BETA_RESTRICTED(beta_restricted,beta)
 
     !IF ((write_output_3) .AND. (which_series .EQ. 1)) THEN
     !   WRITE(UNIT=dev_unit_nb,FMT=*) "chiamata a LIKELIHOOD_UPDATE"
-    !   WRITE(UNIT=dev_unit_nb,FMT=*) "beta", beta
-    !   WRITE(UNIT=dev_unit_nb,FMT=*)
     !END IF
 
     modify = .FALSE.
@@ -2493,7 +2491,6 @@ CONTAINS
        DO i=dim_mu+dim_arch, T
           S_Z(i,1) = U_temp(i)*inv_sigma(i)
        END DO
-
        IF (deg_z_max .GT. 1) THEN
           !remember that in dim_mu is included the constant term of the condit. mean 
           DO i=2, deg_z_max
@@ -2947,7 +2944,9 @@ CONTAINS
 
   SUBROUTINE SNP_ORT_FUNC(T)
     USE S1_COMMON, ONLY: grad_i, t_start, dim_mu, nb_not_fixed_mu, dim_sigma, &
-         nb_not_fixed_sigma, nb_not_fixed_pol , j1, j2, j3
+         nb_not_fixed_sigma, nb_not_fixed_pol , j1, j2, j3, &
+         dev_unit_nb
+      !rimuovi
     USE Z_MATRIX,  ONLY: grad_l
     IMPLICIT NONE
 

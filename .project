@@ -3,6 +3,7 @@
 	<name>REMM</name>
 	<comment></comment>
 	<projects>
+		<project>npsol</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

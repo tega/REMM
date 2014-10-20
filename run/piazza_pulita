@@ -1,4 +1,4 @@
-rm *.txt *.dat fort.3 setup.new
+rm *.txt *.dat fort.3 setup.new 1*
 rm out*
 cp setup.bak setup.dat
 
