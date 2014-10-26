@@ -499,7 +499,7 @@ Selection table:
 **********************************************************
 
 5.01) Set the bound c of the robustness degree:
- 9.0 
+ 6.0 
 
 
 5.02) Set the metric used to calculate the weights: 0=simple, 1=efficient

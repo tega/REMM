@@ -140,8 +140,8 @@ CONTAINS
     SUBROUTINE UPDATE_PSI_N2()
         USE DATATYPES
         USE S1_COMMON,   ONLY: AM_nb_not_fixed_par
-        USE S2_COMMON,   ONLY: T2, N2, SM_nb_par, rho_SM_end, rho_rest_SM_old, SM_nb_free_par, &
-            nb_discard_step_2, nb_iid_series, simulated_series_step_2, random_iid_step_2, M_rho
+        USE S2_COMMON,   ONLY: N2, SM_nb_free_par, &
+             M_rho
         USE ROB_COMMON,  ONLY: rob_A, rob_A_tilde, S, rob_weights_N2, &
             psi_N2, score_N2, psi_N2_tilde, weights_metric
         USE MYFUNCTIONS,          ONLY: MM
@@ -459,10 +459,9 @@ CONTAINS
     SUBROUTINE PSI_FOR_M_RHO_ESTIMATION(beta_restricted, rho_restricted, H, is_rob_estimation)
         USE DATATYPES
         USE S1_COMMON,   ONLY: AM_nb_not_fixed_par, AM_nb_free_par, &
-            write_output_3, dev_unit_nb
+            dev_unit_nb
         USE S2_COMMON,   ONLY: T2, N2, SM_nb_par, SM_nb_free_par, &
-            nb_discard_step_2, nb_iid_series, simulated_series_step_2, random_iid_step_2, &
-            SM_nb_not_fixed_par
+            nb_discard_step_2, nb_iid_series, simulated_series_step_2, random_iid_step_2
         USE ROB_COMMON,  ONLY: psi_N2, score_N2
         USE Z_MATRIX,             ONLY: is_new2
         USE UTILITIES,            ONLY: COMPLETE_RHO_RESTRICTED
@@ -510,9 +509,9 @@ CONTAINS
 
     SUBROUTINE APPROX_M_RHO(beta, rho, M_rho, is_rob_estimation)
         USE DATATYPES
-        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, grad_i, &
+        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, &
             write_output_3, dev_unit_nb
-        USE S2_COMMON,   ONLY: T2, SM_nb_par,  SM_nb_free_par, delta_M_rho, method_derivative_M_rho
+        USE S2_COMMON,   ONLY: SM_nb_par,  SM_nb_free_par, delta_M_rho, method_derivative_M_rho
         USE ROB_COMMON,  ONLY: M_rho_delta_selection
         USE UTILITIES,   ONLY: RESTRICT_BETA, RESTRICT_RHO
         IMPLICIT NONE
@@ -588,10 +587,10 @@ CONTAINS
 
     SUBROUTINE WRITE_FUNCTION_M(beta, rho, is_rob_estimation)
         USE DATATYPES
-        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, grad_i, &
+        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, &
             write_output_3, dev_unit_nb
         USE ROB_COMMON,  ONLY: M_rho_delta_selection
-        USE S2_COMMON,   ONLY: T2, SM_nb_par,  SM_nb_free_par, delta_M_rho, method_derivative_M_rho
+        USE S2_COMMON,   ONLY: SM_nb_par,  SM_nb_free_par, delta_M_rho
         USE UTILITIES,   ONLY: RESTRICT_BETA, RESTRICT_RHO
         IMPLICIT NONE
 
@@ -606,8 +605,6 @@ CONTAINS
         REAL (KIND=realkind) :: delta
 
         INTEGER :: i,i_SM_nb_par
-
-100     FORMAT(25(ES11.4,TR1))
 
         IF (write_output_3) THEN
             WRITE(UNIT=dev_unit_nb,FMT='(A)') "Computation of M"
@@ -1015,7 +1012,7 @@ CONTAINS
 
     SUBROUTINE DO_AM_GRID_SEARCH(beta,which_criterion,grid_search_log_lik)
         USE DATATYPES
-        USE S1_COMMON, ONLY: T1, AM_nb_par, AM_nb_free_par, write_output_2, tmp_unit_nb
+        USE S1_COMMON, ONLY: AM_nb_par, AM_nb_free_par, write_output_2, tmp_unit_nb
         USE UTILITIES, ONLY: RESTRICT_BETA, CHECK_CONSTRAINTS_STEP_1
         USE GRID_SEARCH_AM
         IMPLICIT NONE
@@ -1128,7 +1125,7 @@ CONTAINS
     SUBROUTINE DO_SM_GRID_SEARCH(rho,which_criterion,grid_search_minimum)
         USE DATATYPES
         USE S1_COMMON, ONLY: write_output_2, tmp_unit_nb
-        USE S2_COMMON, ONLY: T2, SM_nb_par, SM_nb_free_par
+        USE S2_COMMON, ONLY: SM_nb_par, SM_nb_free_par
         USE UTILITIES, ONLY: RESTRICT_RHO, CHECK_CONSTRAINTS_STEP_2
         USE GRID_SEARCH_SM
         IMPLICIT NONE
@@ -1518,7 +1515,7 @@ CONTAINS
         USE S1_COMMON, ONLY:  T1, nclin, ncnln, ldA, ldJ, ldR, A, bl, bu, &
             inform, iter, istate, cJac, clamda, RR, iw, leniw, w, &
             lenw, write_output_1, write_output_2, log_unit_nb, write_output_3, dev_unit_nb, &
-            beta_AM_end, AM_nb_par, AM_nb_not_fixed_par, inv_score_cov, &
+            beta_AM_end, AM_nb_par, inv_score_cov, &
             space_lenght
         USE S2_COMMON, ONLY: SM_nb_par, SM_nb_free_par, rho_rest_SM_old, &
             nb_discard_step_2, nb_iid_series, random_iid_step_2, T2, max_T2, &
@@ -1613,11 +1610,10 @@ CONTAINS
 
 
     SUBROUTINE STEP_1_ROB(beta_restricted, AM_nb_free_par)
-        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, nclin, ncnln, ldA, ldJ, &
+        USE S1_COMMON,   ONLY: AM_nb_par, nclin, ncnln, ldA, ldJ, &
             ldR, A, bl, bu, inform, iter, istate, cJac, clamda, RR, iw, leniw, w, lenw, &
-            log_unit_nb, write_output_2, space_lenght, step, derivative_level, &
-            do_grid_search, &
-dev_unit_nb ! rimuovi
+            log_unit_nb, write_output_2, space_lenght, do_grid_search, &
+            dev_unit_nb ! rimuovi
         USE Z_MATRIX,       ONLY: beta_old
         USE UTILITIES,      ONLY: RESTRICT_BETA
         USE ROB_COMMON,     ONLY: npsol_inform_step_1_rob, npsol_iter_step_1_rob, &
@@ -1854,14 +1850,12 @@ write(UNIT=dev_unit_nb,FMT="(F10.3)") beta_restricted
     SUBROUTINE UPDATES(beta,rho,update_kind,nb_loop)
         USE S1_COMMON,   ONLY: N1, AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, &
             write_output_3, sel_score_cov_mat_s1, lags_score_cov_mat_s1
-        USE S2_COMMON,   ONLY: T2, SM_nb_par, SM_nb_free_par, M_rho, &
-            nb_discard_step_2, nb_iid_series, random_iid_step_2, simulated_series_step_2, &
+        USE S2_COMMON,   ONLY: SM_nb_par, SM_nb_free_par, M_rho, &
             compute_accuracy_M_rho
         USE STARTUP,     ONLY: NPSOL_SETUP
-        USE Z_MATRIX,    ONLY: is_new3, beta_old
         USE UTILITIES,   ONLY: RESTRICT_BETA, RESTRICT_RHO
         USE ROB_COMMON,  ONLY: rob_A, rob_A_tilde, B_0, S, psi_N1, score_N1, &
-            rob_weights_N1, nb_A_updates, nb_B_updates, nb_M_rho_updates, wait_update_M_rho, &
+            rob_weights_N1, nb_M_rho_updates, wait_update_M_rho, &
             count_update_M_rho
         USE MYFUNCTIONS, ONLY: MM, CHOL, INV, MAT_CROSS_LAG
         USE SIMULATION,  ONLY: STRUCTURAL_MODEL_SIMULATION
@@ -2025,11 +2019,10 @@ write(UNIT=dev_unit_nb,FMT="(F10.3)") beta_restricted
 
     SUBROUTINE ROB_MAIN(beta_start, rho_start)
         USE DATATYPES
-        USE S1_COMMON,   ONLY: T1, AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, beta_AM_end, &
-            grad_i, modified_series, space_lenght, write_output_2, write_output_3, &
+        USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, beta_AM_end, &
+            space_lenght, write_output_2, write_output_3, &
             log_unit_nb, step, derivative_level, do_grid_search_first_n_loops
-        USE S2_COMMON,   ONLY: T2, SM_nb_par, SM_nb_free_par, rho_SM_end, M_rho, &
-            nb_discard_step_2, nb_iid_series, random_iid_step_2, simulated_series_step_2
+        USE S2_COMMON,   ONLY: SM_nb_par, SM_nb_free_par, rho_SM_end, M_rho
         USE STARTUP,     ONLY: NPSOL_SETUP
         USE UTILITIES
         USE ROB_COMMON

@@ -29,4 +29,5 @@ remm.o : remm.f90 SNP_ROBUST.o SNP.o snp4.o snp3.o snp2.o snp1.o
 
 clean:
 	rm $(OBJS) *.mod
+	rm ../run/remm
 

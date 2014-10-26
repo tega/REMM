@@ -2231,7 +2231,7 @@ MODULE LIKELIHOOD_UTILITIES
 CONTAINS
 
   SUBROUTINE X_MATRIX_CONSTRUCTION(T, working_series)
-    USE S1_COMMON, ONLY:  pol_deg, pol_dim, t_start, nb_pol_coef 
+    USE S1_COMMON, ONLY:  pol_deg, pol_dim, t_start
     USE Z_MATRIX, ONLY: X, X_product, nb_jumps, nb_rep, high_jumps
     IMPLICIT NONE
 
@@ -2343,7 +2343,7 @@ CONTAINS
   SUBROUTINE LIKELIHOOD_UPDATE(beta_restricted,T,working_series,which_series,mode)
     USE S1_COMMON, ONLY: dim_mu, dim_sigma, dim_arch, dim_garch, AM_nb_par, &
          AM_nb_free_par, t_start, pol_dim, pol_deg, nb_pol_coef, &
-         deg_z_max, epsilon_0, M, derivative_level, write_output_3, dev_unit_nb
+         deg_z_max, epsilon_0, M, derivative_level, dev_unit_nb
     USE Z_MATRIX
     USE UTILITIES, ONLY: COMPLETE_BETA_RESTRICTED
     IMPLICIT NONE
@@ -3079,7 +3079,7 @@ MODULE COVARIANCE_ESTIMATES
 CONTAINS
   SUBROUTINE EST_COV_SCORE_AM_STEP1(beta_restricted,T,working_series,which_series)
     USE S1_COMMON,   ONLY: AM_nb_not_fixed_par, score_cov, sel_score_cov_mat_s1, lags_score_cov_mat_s1,&
-         t_start, grad_i, derivative_level, write_output_3, dev_unit_nb
+         t_start, grad_i, derivative_level, dev_unit_nb
     USE Z_MATRIX
     USE MYFUNCTIONS, ONLY:  MAT_CROSS_LAG, EYE, INV, MM
     USE LIKELIHOOD_UTILITIES, ONLY:  SNP_ORT_FUNC, LIKELIHOOD_UPDATE
@@ -3173,7 +3173,7 @@ CONTAINS
 
   SUBROUTINE APPROX_M_BETA(beta_restricted, M_beta, T, working_series, which_series, T_tmp)
     USE DATATYPES
-    USE S1_COMMON,   ONLY: AM_nb_par, AM_nb_not_fixed_par, AM_nb_free_par, grad_i, &
+    USE S1_COMMON,   ONLY: AM_nb_not_fixed_par, AM_nb_free_par, &
          write_output_3, dev_unit_nb, delta_M_beta
     IMPLICIT NONE
 
@@ -3843,7 +3843,7 @@ CONTAINS
     USE S1_COMMON, ONLY: T1, t_start, dim_mu, dim_sigma, dim_arch, dim_garch, pol_dim, &
          pol_deg, epsilon_0, center, scale, empirical_is_mean, is_fixed_par_AM, is_restricted_par_AM, &
          empirical_is_variance, inform, iter, cov_estimates_s1, AM_nb_not_fixed_par, &
-         beta_AM_end, nb_not_fixed_mu, nb_not_fixed_sigma, nb_pol_coef, version, tmp_unit_nb, &
+         beta_AM_end, nb_pol_coef, version, tmp_unit_nb, &
          AM_nb_par, AM_nb_free_par
     IMPLICIT NONE
 
@@ -4186,7 +4186,7 @@ CONTAINS
 
   SUBROUTINE WRITE_RESULTS_SNP_ROB_STEP_1()
     USE S1_COMMON, ONLY: dim_mu, dim_sigma, dim_arch, dim_garch, pol_dim, &
-         beta_AM_end, j1, j2, j3, nb_pol_coef, tmp_unit_nb
+         beta_AM_end, nb_pol_coef, tmp_unit_nb
     IMPLICIT NONE
 
     INTEGER :: j
@@ -4807,7 +4807,7 @@ CONTAINS
   SUBROUTINE OUTPUT_EXPECTATION_MC_STEP_2()
     USE S1_COMMON,   ONLY: tmp_unit_nb
     USE S2_COMMON,   ONLY: npsol_inform_step_2, npsol_iter_step_2, hansen_test_results
-    USE MONTE_CARLO, ONLY: mc_results_step_1, mc_results_step_2, nb_rep_monte_carlo, &
+    USE MONTE_CARLO, ONLY: mc_results_step_2, nb_rep_monte_carlo, &
          nb_rep_exp_analysis
     IMPLICIT NONE
 
