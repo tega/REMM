@@ -5,4 +5,5 @@ remm
 /.project
 /.settings
 /.directory
-
+.project
+.cproject
